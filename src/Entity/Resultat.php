@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ResultatRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ResultatRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=ResultatRepository::class)
+ * @ApiResource()
  */
+
 class Resultat
 {
     /**

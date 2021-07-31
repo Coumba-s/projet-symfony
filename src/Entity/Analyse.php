@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\AnalyseRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AnalyseRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=AnalyseRepository::class)
+ * @ApiResource()
  */
+
+
 class Analyse
 {
     /**
