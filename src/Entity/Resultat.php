@@ -5,12 +5,22 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ResultatRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ResultatRepository::class)
- * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext:['groups' => ['read:analyse']],
+    itemOperations:[
+        'get',
+        'put',
+        'delete' =>[
+            'normalization_context' =>['groups'=> ['read:analyse']],
+        ],
 
+    ],
+)]
 class Resultat
 {
     /**
@@ -18,21 +28,25 @@ class Resultat
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:analyse'])]
     private $id;
 
     /**
      * @ORM\Column(type="text")
      */
+    #[Groups(['read:analyse'])]
     private $technique;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:analyse'])]
     private $resultat;
 
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:analyse'])]
     private $ct;
 
     /**

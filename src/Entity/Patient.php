@@ -7,11 +7,21 @@ use App\Repository\PatientRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=PatientRepository::class)
- * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext:['groups' => ['read:analyse']],
+    itemOperations:[
+        'get',
+        'put',
+        'delete' =>[
+            'normalization_context' =>['groups'=> ['read:analyse']],
+        ],
+
+    ],
+)]
 
 class Patient
 {
@@ -20,21 +30,25 @@ class Patient
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+#[Groups(['read:analyse'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:analyse'])]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['read:analyse'])]
     private $prenom;
-
+    
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:analyse'])]
     private $age;
 
     /**
@@ -66,11 +80,6 @@ class Patient
      * @ORM\Column(type="integer")
      */
     private $nombre_visite;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="patient")
-     */
-    private $utilisateur_patient;
 
     /**
      * @ORM\OneToMany(targetEntity=Analyse::class, mappedBy="patient")
@@ -191,18 +200,6 @@ class Patient
     public function setNombreVisite(int $nombre_visite): self
     {
         $this->nombre_visite = $nombre_visite;
-
-        return $this;
-    }
-
-    public function getUtilisateurPatient(): ?Utilisateur
-    {
-        return $this->utilisateur_patient;
-    }
-
-    public function setUtilisateurPatient(?Utilisateur $utilisateur_patient): self
-    {
-        $this->utilisateur_patient = $utilisateur_patient;
 
         return $this;
     }

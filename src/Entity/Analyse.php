@@ -5,12 +5,22 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AnalyseRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AnalyseRepository::class)
- * @ApiResource()
  */
+#[ApiResource(
+    normalizationContext:['groups' => ['read:analyse']],
+    itemOperations:[
+        'get',
+        'put',
+        'delete' =>[
+            'normalization_context' =>['groups'=> ['read:analyse']],
+        ],
 
+    ],
+)]
 
 class Analyse
 {
@@ -19,11 +29,14 @@ class Analyse
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+
+    #[Groups(['read:analyse'])]
     private $id;
 
     /**
      * @ORM\Column(type="integer")
      */
+    #[Groups(['read:analyse'])]
     private $numero_quitance;
 
     /**
@@ -34,6 +47,7 @@ class Analyse
     /**
      * @ORM\Column(type="date")
      */
+    #[Groups(['read:analyse'])]
     private $date_prelevement;
 
     /**
@@ -64,6 +78,7 @@ class Analyse
     /**
      * @ORM\Column(type="text")
      */
+    #[Groups(['read:analyse'])]
     private $type_prelevement;
 
     /**
